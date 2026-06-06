@@ -1,0 +1,107 @@
+{
+  "skill_name": "agrobr",
+  "evals": [
+    {
+      "id": 1,
+      "name": "cepea-prices",
+      "prompt": "estou fazendo um levantamento de precos de commodities agricolas para um trabalho. preciso do preco da soja em R$/sc dos ultimos 30 dias usando o CEPEA. tambem quero saber qual foi o ultimo preco do boi gordo. usa a biblioteca agrobr pra isso, versao sync. mostra os dados e o valor mais recente.",
+      "expected_output": "DataFrame com preços CEPEA da soja (últimos 30 dias) e último preço do boi gordo, formatados como tabela",
+      "files": [],
+      "assertions": [
+        {
+          "name": "importa_cepea_sync",
+          "description": "O código importa `cepea` de `agrobr.sync` (não de `agrobr` diretamente)",
+          "expectation": "import from agrobr.sync import cepea"
+        },
+        {
+          "name": "usa_cepea_indicador",
+          "description": "O código chama `cepea.indicador()` para obter preços da soja",
+          "expectation": "chama cepea.indicador()"
+        },
+        {
+          "name": "usa_cepea_ultimo",
+          "description": "O código chama `cepea.ultimo()` para obter o último preço do boi",
+          "expectation": "chama cepea.ultimo()"
+        },
+        {
+          "name": "mostra_ultimo_preco_boi",
+          "description": "A saída exibe o valor do último preço do boi gordo em R$/@",
+          "expectation": "saída contém valor do boi gordo em R$"
+        },
+        {
+          "name": "modo_sync",
+          "description": "O código usa modo sync (sem async/await no top-level)",
+          "expectation": "código sem async def main()"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "corn-production",
+      "prompt": "preciso de dados de producao de milho no brasil. quero a producao anual consolidada (usando o datasets do agrobr) e tambem a serie historica da conab desde 2010. usa a biblioteca agrobr sync. quero comparar os numeros das duas fontes. mostra os dados em tabela e fala se tem diferenca significativa.",
+      "expected_output": "DataFrame com produção anual de milho do dataset producao_anual e série histórica CONAB, com comparação entre fontes",
+      "files": [],
+      "assertions": [
+        {
+          "name": "importa_datasets_sync",
+          "description": "O código importa `datasets` de `agrobr.sync`",
+          "expectation": "import from agrobr.sync import datasets"
+        },
+        {
+          "name": "usa_datasets_producao_anual",
+          "description": "O código usa `datasets.producao_anual()` para produção consolidada",
+          "expectation": "chama datasets.producao_anual()"
+        },
+        {
+          "name": "importa_conab_sync",
+          "description": "O código importa `conab` de `agrobr.sync`",
+          "expectation": "import from agrobr.sync import conab"
+        },
+        {
+          "name": "usa_conab_serie_historica",
+          "description": "O código usa `conab.serie_historica()` para série histórica",
+          "expectation": "chama conab.serie_historica()"
+        },
+        {
+          "name": "compara_fontes",
+          "description": "O código compara os dados das duas fontes analisando diferenças",
+          "expectation": "compara ou contrasta os resultados das duas fontes"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "deforestation-fires",
+      "prompt": "estou analisando desmatamento na amazonia. quero dados do PRODES para o estado do Para no ano de 2022, e tambem focos de queimadas para setembro de 2024 no bioma Amazonia. usa a biblioteca agrobr (versao sync). formata uma tabela com os dados do PRODES e outra com os focos de calor. para os focos de queimadas, filtra pelo estado do Para tambem.",
+      "expected_output": "DataFrames com dados PRODES (Pará 2022) e focos de queimadas (Amazônia, set/2024), com filtros aplicados",
+      "files": [],
+      "assertions": [
+        {
+          "name": "importa_desmatamento_sync",
+          "description": "O código importa `desmatamento` de `agrobr.sync`",
+          "expectation": "import from agrobr.sync import desmatamento"
+        },
+        {
+          "name": "usa_desmatamento_prodes",
+          "description": "O código usa `desmatamento.prodes()` com parâmetros bioma, ano, uf",
+          "expectation": "chama desmatamento.prodes(bioma=..., ano=..., uf=...)"
+        },
+        {
+          "name": "importa_queimadas_sync",
+          "description": "O código importa `queimadas` de `agrobr.sync`",
+          "expectation": "import from agrobr.sync import queimadas"
+        },
+        {
+          "name": "usa_queimadas_focos",
+          "description": "O código usa `queimadas.focos()` com filtros de ano, mês, bioma",
+          "expectation": "chama queimadas.focos(ano=..., mes=..., bioma=...)"
+        },
+        {
+          "name": "filtra_queimadas_uf",
+          "description": "O código filtra ou agrupa os focos de queimadas pelo estado do Pará",
+          "expectation": "filtra dados de queimadas pelo Pará (PA)"
+        }
+      ]
+    }
+  ]
+}
