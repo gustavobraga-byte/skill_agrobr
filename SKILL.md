@@ -51,11 +51,11 @@ ultimo = cepea.ultimo('soja')
 print(f"Soja: R$ {ultimo.valor}/sc em {ultimo.data}")
 
 # Listar produtos e praças
-print(cepea.produtos())      # 20 produtos
+print(cepea.produtos())      # 21 produtos
 print(cepea.pracas('soja'))  # praças de comercialização
 ```
 
-**Produtos CEPEA:** soja, milho, cafe, boi, trigo, algodao, arroz, frango, suino, etanol, acucar, leite, ovos, batata, cebola, tomate, feijao, mandioca, cacau, madeira.
+**Produtos CEPEA:** soja, milho, cafe, boi, trigo, algodao, arroz, frango, suino, etanol, acucar, leite, ovos, batata, cebola, tomate, feijao, mandioca, cacau, madeira (+1 — ver `cepea.produtos()`; total 21 na v1.1.0).
 
 ### 2. Produção e Safras
 
@@ -73,7 +73,9 @@ print(cepea.pracas('soja'))  # praças de comercialização
 | **DERAL** (PR) | `from agrobr.sync import deral` | `deral.condicao_lavouras('soja')` |
 | **USDA PSD** | `from agrobr.sync import usda` | `usda.psd('soja', country='BR', market_year=2024)` (requer `AGROBR_USDA_API_KEY`) |
 | **ABIOVE** | `from agrobr.sync import abiove` | `abiove.exportacao(ano=2024, produto='grao')` |
-| **ANEC** | `from agrobr.sync import anec` | `anec.embarques(ano=2024)`, `anec.destinos(ano=2024)` |
+| **ANEC** | `from agrobr import anec` (async — ausente no `agrobr.sync` da v1.1.0) | `await anec.embarques(ano=2026)`, `await anec.destinos(ano=2026)` (requer `agrobr[pdf]`; só anos 2026+) |
+| **CFTC** | `from agrobr.sync import cftc` | `cftc.cot(commodity='soybeans')` (posições CFTC EUA) |
+| **UNICA** | `from agrobr.sync import unica` | `unica.moagem_quinzenal()`, `unica.safra_resumo()`, `unica.producao_historica()` (cana-de-açúcar) |
 | **Rio Verde** | `from agrobr.sync import rio_verde` | `rio_verde.ensaio_soja(safra='2023/24')` |
 
 ### 3. Comércio e Logística
@@ -176,7 +178,7 @@ print(datasets.list_datasets())
 df = datasets.preco_diario('soja', as_polars=True)
 ```
 
-### Datasets Disponíveis (35)
+### Datasets Disponíveis (36 na v1.1.0 — ver `datasets.list_datasets()`)
 
 | Dataset | Descrição | Fontes (fallback) |
 |---------|-----------|-------------------|
